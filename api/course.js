@@ -23,7 +23,7 @@ const Lesson = require('../models/lesson.js');
 
 router.get('/all', async (req, res) => {
     try {
-        const courses = await Course.find().populate('teacher lessons.lesson');
+        const courses = await Course.find().populate('teacher');
 
         let response = {
             success: true,
@@ -34,7 +34,6 @@ router.get('/all', async (req, res) => {
         return res.status(200).json(response);
 
     } catch (err) {
-        console.log(err);
         let response = {
             success: false,
             msg: "Server Error",
@@ -64,11 +63,10 @@ router.get('/:id', async (req, res) => {
         return res.status(200).json(response);
 
     } catch (err) {
-        console.log(err);
         let response = {
             success: false,
             msg: "Server Error",
-            details: "An unexpected error occured while getting all courses",
+            details: "An unexpected error occured while getting a courses",
             error: err
         }
         return res.status(500).json(response);
