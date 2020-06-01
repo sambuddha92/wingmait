@@ -19,7 +19,7 @@ const Lesson = require('../models/lesson.js');
 
 //@route    GET api/course/all
 //@desc     Get All Courses
-//@access   private
+//@access   public
 
 router.get('/all', async (req, res) => {
     try {
@@ -46,7 +46,7 @@ router.get('/all', async (req, res) => {
 
 //@route    GET api/course/id
 //@desc     Get A Course
-//@access   private
+//@access   public
 
 router.get('/:id', async (req, res) => {
     try {

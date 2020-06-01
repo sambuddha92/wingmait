@@ -32,6 +32,7 @@ app.use( passport.session() );
 //Define routes
 app.use( '/api/course', require('./api/course') );
 app.use( '/api/auth', require('./api/auth') );
+app.use( '/api/interaction', require('./api/interaction') );
 
 app.use( '/robots.txt', function (req, res, next) {
   res.type('text/plain')
