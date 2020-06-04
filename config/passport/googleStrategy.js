@@ -11,16 +11,16 @@ const strategy = new GoogleStrategy(
     (token, refreshToken, profile, done) => {
         try {
             process.nextTick(async () => {
-                let student = await Student.findOne({"google.id": profile.id});
+                let student = await Student.findOne({email: profile.emails[0].value});
                 if (student) {
                     return done(null, user);
                 } else {
                     student = new Student({
+                        email: profile.emails[0].value,
+                        name: profile.displayName,
                         google: {
                             id: profile.id,
-                            token,
-                            name: profile.displayName,
-                            email: profile.emails[0].value
+                            token
                         }
                     })
                     await student.save();

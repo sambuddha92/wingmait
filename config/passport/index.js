@@ -1,6 +1,7 @@
 const passport = require('passport');
 const Student = require('../../models/student');
 const GoogleStrategy = require('./googleStrategy');
+const FacebookStrategy = require('./facebookStrategy');
 
 // called on login, saves the id to session req.session.passport.user = {id:'..'}
 passport.serializeUser((student, done) => {
@@ -14,5 +15,6 @@ passport.deserializeUser((id, done) => {
 
 //  Use Strategies 
 passport.use(GoogleStrategy);
+passport.use(FacebookStrategy);
 
 module.exports = passport;

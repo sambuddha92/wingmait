@@ -13,9 +13,9 @@ let s3 = new AWS.S3({
 
 const s3Bucket = 'wingmait-course';
 
-const Course = require('../models/course.js');
-const Teacher = require('../models/teacher.js');
-const Lesson = require('../models/lesson.js');
+const Course = require('../../models/course.js');
+const Teacher = require('../../models/teacher.js');
+const Lesson = require('../../models/lesson.js');
 
 //@route    GET api/course/all
 //@desc     Get All Courses

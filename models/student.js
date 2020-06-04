@@ -2,11 +2,26 @@ const mongoose = require('mongoose');
 
 // Define the model
 const Schema = new mongoose.Schema({
+    email: String,
+    name: String,
+    local: {
+        password: String
+    },
     google: {
         id: String,
-        token: String,
-        email: String,
-        name: String
+        token: String
+    },
+    facebook: {
+        id: String,
+        token: String
+    },
+    linkedin: {
+        id: String,
+        token: String
+    },
+    twitter: {
+        id: String,
+        token: String
     },
     payments: [{
         txnid: String,

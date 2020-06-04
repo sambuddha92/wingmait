@@ -30,9 +30,9 @@ app.use( passport.initialize() );
 app.use( passport.session() );
 
 //Define routes
-app.use( '/api/course', require('./api/course') );
-app.use( '/api/auth', require('./api/auth') );
-app.use( '/api/interaction', require('./api/interaction') );
+app.use( '/api/course', require('./routes/api/course') );
+app.use( '/api/interaction', require('./routes/api/interaction') );
+app.use( '/auth', require('./routes/auth') );
 
 app.use( '/robots.txt', function (req, res, next) {
   res.type('text/plain')
