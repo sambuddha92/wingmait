@@ -5,7 +5,8 @@ const Schema = new mongoose.Schema({
     email: String,
     name: String,
     local: {
-        password: String
+        password: String,
+        token: String
     },
     google: {
         id: String,
@@ -35,6 +36,13 @@ const Schema = new mongoose.Schema({
         isRefunded: {
             type: Boolean,
             default: false
+        }
+    }],
+    enrolments: [{
+        course: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Course',
+            required: true
         }
     }]
 })

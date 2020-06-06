@@ -13,7 +13,7 @@ const strategy = new GoogleStrategy(
             process.nextTick(async () => {
                 let student = await Student.findOne({email: profile.emails[0].value});
                 if (student) {
-                    return done(null, user);
+                    return done(null, student);
                 } else {
                     student = new Student({
                         email: profile.emails[0].value,

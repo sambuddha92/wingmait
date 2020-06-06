@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const AWS = require('aws-sdk');
 require('dotenv').config();
 

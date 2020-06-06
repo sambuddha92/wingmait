@@ -17,7 +17,7 @@ const strategy = new FacebookStrategy(
             process.nextTick(async () => {
                 let student = await Student.findOne({email});
                 if (student) {
-                    return done(null, user);
+                    return done(null, student);
                 } else {
                     student = new Student({
                         email,

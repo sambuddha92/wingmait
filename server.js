@@ -30,6 +30,8 @@ app.use( passport.initialize() );
 app.use( passport.session() );
 
 //Define routes
+app.use( '/api/page', require('./routes/api/page') );
+app.use( '/api/student', require('./routes/api/student') );
 app.use( '/api/course', require('./routes/api/course') );
 app.use( '/api/interaction', require('./routes/api/interaction') );
 app.use( '/auth', require('./routes/auth') );
