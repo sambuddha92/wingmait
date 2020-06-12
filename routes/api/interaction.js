@@ -18,7 +18,7 @@ router.post('/contact', upload.none(), async(req, res) => {
     try {
         const {name, email, message} = req.body;
 
-        //Send email to new user
+        //Send email
         const msg = {
             to: 'hello@wingmait.com',
             from: 'carlos-noreply@wingmait.com',

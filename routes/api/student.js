@@ -3,6 +3,10 @@ const router = express.Router();
 const multer = require('multer');
 const upload = multer();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const Student = require('../../models/student.js');
@@ -170,6 +174,105 @@ router.put('/password', isValidPasswordReset, (req, res) => {
             success: false,
             msg: "Server Error",
             details: "An unexpected error occured while updating student",
+            error: err
+        }
+        return res.status(500).json(response);
+    }
+})
+
+//@route    GET api/student/password/reset/email
+//@desc     Generate and send Password Reset Url
+//@access   private
+
+router.get('/password/reset/:email', async (req, res) => {
+    try {
+        const email = req.params.email;
+        let student = await Student.findOne({email});
+        //let bodyHtml = fs.readFileSync(path.resolve(__dirname, '../../resources/resetmail.html'), 'utf8');
+        if (!student) {
+            let response = {
+                success: false,
+                msg: "No such user"
+            }
+            return res.status(400).json(response);
+        }
+
+        const token = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: "1h"});
+        const url = `${process.env.RESET_URL_DOMAIN}/reset-password/${token}`;
+        //bodyHtml = bodyHtml.replace(/passwordResetUrl/g, url);
+        
+        //Send email
+        const msg = {
+            to: email,
+            from: 'no-reply@wingmait.com',
+            reply_to: 'hello@wingmait.com',
+            subject: 'Forgot your password on wingmait?',
+            text: `Hi there,\n\nPlease click the link below to reset your password\n\n${url}\n\nRegards,\nTeam Wingmait`,
+            html: `<p>Hi there,</p><p>Please click the link below to reset your password</p><p>${url}</p><p>Regards,<br />Team Wingmait</p>`
+        };
+
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        sgMail.send(msg);
+
+        let response = {
+            success: true,
+            msg: "Message Sent"
+        }
+        return res.status(200).json(response);
+    } catch (err) {
+        let response = {
+            success: false,
+            msg: "Server Error",
+            details: "An unexpected error occured while generating password reset url",
+            error: err
+        }
+        return res.status(500).json(response);
+    }
+})
+
+//@route    PUT api/student/password/reset
+//@desc     Generate and send Password Reset Url
+//@access   private
+
+router.put("/password/reset", isValidPasswordReset, async (req, res) => {
+    try {
+        const {
+            new_password,
+            confirm_new_password,
+            token
+        } = req.body;
+
+        jwt.verify(token, process.env.JWT_SECRET, async (err, verifiedToken) => {
+            if(err){
+                let response = {
+                    success: false,
+                    msg: err.msg,
+                    details: "An unexpected error occured while verifying token",
+                    error: err
+                }
+                return res.status(500).json(response);
+              }else{
+                const {
+                    email
+                } = verifiedToken;
+                //Encrypt password
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(new_password, salt);
+                await Student.findOneAndUpdate({email}, {local: {password: hashedPassword}})
+                let response = {
+                    success: true,
+                    msg: "Password updated"
+                }
+                return res.status(200).json(response);
+              }
+        })
+
+        return res.status(200).send("Ok");
+    } catch (err) {
+        let response = {
+            success: false,
+            msg: "Server Error",
+            details: "An unexpected error occured while generating reseting password",
             error: err
         }
         return res.status(500).json(response);
