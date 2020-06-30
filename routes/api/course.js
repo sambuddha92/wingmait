@@ -55,7 +55,6 @@ router.get('/:id', async (req, res) => {
 
         let response = {
             success: true,
-            msg: "Course",
             payload: course
         }
 

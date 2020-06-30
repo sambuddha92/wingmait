@@ -30,8 +30,7 @@ const Schema = new mongoose.Schema({
         date: Date,
         course: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Course',
-            required: true
+            ref: 'Course'
         },
         isRefunded: {
             type: Boolean,
@@ -41,8 +40,7 @@ const Schema = new mongoose.Schema({
     enrolments: [{
         course: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Course',
-            required: true
+            ref: 'Course'
         }
     }]
 })

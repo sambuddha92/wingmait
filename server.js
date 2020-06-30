@@ -33,6 +33,7 @@ app.use( passport.session() );
 app.use( '/api/resource', require('./routes/api/resource') );
 app.use( '/api/student', require('./routes/api/student') );
 app.use( '/api/course', require('./routes/api/course') );
+app.use( '/api/lesson', require('./routes/api/lesson') );
 app.use( '/api/interaction', require('./routes/api/interaction') );
 app.use( '/auth', require('./routes/auth') );
 
